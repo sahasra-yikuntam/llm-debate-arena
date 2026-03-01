@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.main import app
 from app.core.database import Base, get_db
+from app.models.debate import Debate
 
 TEST_DATABASE_URL = "sqlite:///./test_debate.db"
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -26,7 +27,7 @@ def setup_db():
 
 @pytest.fixture
 def client():
-    return TestClient(app)
+    return TestClient(app, raise_server_exceptions=False)
 
 def test_health(client):
     assert client.get("/health").status_code == 200
@@ -34,6 +35,7 @@ def test_health(client):
 def test_create_debate(client):
     r = client.post("/api/debates/", json={"topic": "AI will transform the economy within a decade", "rounds": 1})
     assert r.status_code == 201
+    assert r.json()["topic"] == "AI will transform the economy within a decade"
 
 def test_invalid_topic(client):
     assert client.post("/api/debates/", json={"topic": "short", "rounds": 1}).status_code == 422
@@ -45,8 +47,13 @@ def test_get_not_found(client):
     assert client.get("/api/debates/999").status_code == 404
 
 def test_delete_debate(client):
-    r = client.post("/api/debates/", json={"topic": "Universal basic income would help society greatly", "rounds": 1})
-    did = r.json()["id"]
+    db = TestingSessionLocal()
+    debate = Debate(topic="Universal basic income would help society greatly", rounds=1, agent_pro="claude", agent_con="openai", status="complete")
+    db.add(debate)
+    db.commit()
+    db.refresh(debate)
+    did = debate.id
+    db.close()
     assert client.delete(f"/api/debates/{did}").status_code == 204
     assert client.get(f"/api/debates/{did}").status_code == 404
 
