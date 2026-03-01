@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.db
+*.sqlite
+trained_scorer/
+*.pt
+node_modules/
+frontend/dist/
+.DS_Store
+htmlcov/
+.coverage
+.pytest_cache/

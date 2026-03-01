@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg: #0a0a0f; --bg-card: #12121a; --border: #2a2a40; --accent-pro: #4ade80; --accent-con: #f472b6; --text: #e2e8f0; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+h1, h2, h3 { font-family: 'Space Mono', monospace; }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
