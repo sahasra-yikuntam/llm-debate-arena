@@ -28,4 +28,4 @@ docker-compose up --build
 
 LLM evaluation is one of the hardest unsolved problems in AI. This project demonstrates scalable eval by replacing expensive LLM-as-judge calls with a fine-tuned lightweight model — exactly what teams at Anthropic, OpenAI, and Google are working on.
 
-*Built by Sahasra Yikuntam*
+Built by Sahasra Yikuntam
